@@ -1,0 +1,40 @@
+services:
+  isaac-sim:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: rl-robotics:latest
+    container_name: isaac-sim
+    stdin_open: true
+    tty: true
+    runtime: nvidia
+    network_mode: host
+    pid: host
+    ipc: host
+    privileged: true
+    restart: "no"
+    environment:
+      ACCEPT_EULA: "Y"  
+      OMNI_KIT_ALLOW_ROOT: "1"
+      DISPLAY: ${DISPLAY}
+      XDG_SESSION_TYPE: x11
+      QT_X11_NO_MITSHM: "1"
+      RESOURCE_NAME: "IsaacSim"
+      PRIVACY_CONSENT: "Y"
+    volumes:
+      - /dev:/dev
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/.ros/log:/root/.ros/log
+      - ~/docker/isaac-sim/data:/root/.local/share/ov:rw
+      - ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw
+      - ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw
+      - ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw
+      - ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw
+      - ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw
+      - ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw
+      - ~/docker/isaac-sim/documents:/root/Documents:rw
+      - ~/docker/isaac-sim/omniverse:/root/.nvidia-omniverse/omniverse:rw
+      - ~/docker/isaac-sim/config-ov:/root/.config/ov:rw
+      - ./scripts/cube_stack/kinova_cube_stack:/root/kinova_cube_stack:rw
+      - ./robot_usd_files/isaaclab_assets/:/root/isaaclab_assets:rw

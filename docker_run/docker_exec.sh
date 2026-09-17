@@ -1,1 +1,0 @@
-docker exec -it isaac-sim bash
